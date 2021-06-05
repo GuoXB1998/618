@@ -26,8 +26,8 @@ cron "33 0,6-23/2 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/ma
 const $ = new Env('618动物联萌');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const pKHelpFlag = true;//是否PK助力  true 助力，false 不助力
-const pKHelpAuthorFlag = true;//是否助力作者PK  true 助力，false 不助力
+const pKHelpFlag = false;//是否PK助力  true 助力，false 不助力
+const pKHelpAuthorFlag = false;//是否助力作者PK  true 助力，false 不助力
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
@@ -108,30 +108,6 @@ if ($.isNode()) {
     $.index = i + 1;
     //console.log($.inviteList);
     //pk助力
-    if (new Date().getHours() >= 1) {
-      console.log(`\n******开始内部京东账号【怪兽大作战pk】助力*********\n`);
-      for (let i = 0; i < $.pkInviteList.length && pKHelpFlag && $.canHelp; i++) {
-        console.log(`${$.UserName} 去助力PK码 ${$.pkInviteList[i]}`);
-        $.pkInviteId = $.pkInviteList[i];
-        console.log($.pkInviteList);
-        await takePostRequest('pkHelp');
-        await $.wait(2000);
-      }
-      $.canHelp = true;
-    }
-    if ($.inviteList && $.inviteList.length) console.log(`\n******开始内部京东账号【邀请好友助力】*********\n`);
-    for (let j = 0; j < $.inviteList.length && $.canHelp; j++) {
-      $.oneInviteInfo = $.inviteList[j];
-      if ($.oneInviteInfo.ues === $.UserName || $.oneInviteInfo.max) {
-        continue;
-      }
-      //console.log($.oneInviteInfo);
-      $.inviteId = $.oneInviteInfo.inviteId;
-      console.log(`${$.UserName}去助力${$.oneInviteInfo.ues},助力码${$.inviteId}`);
-      //await takePostRequest('helpHomeData');
-      await takePostRequest('help');
-      await $.wait(2000);
-    }
   }
 })()
   .catch((e) => {
